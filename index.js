@@ -10,13 +10,18 @@ app.use(cors());
 
 app.use('/public', express.static(`${process.cwd()}/public`));
 
-app.get('/', function(req, res) {
+app.get('/', function(_req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
 // Your first API endpoint
-app.get('/api/hello', function(req, res) {
-  res.json({ greeting: 'hello API' });
+app.post('/api/shorturl', function(req, res) {
+  // Post request post url and get a JSON response with both URLs
+});
+
+app.get('/api/shorturl/:shorturl', (req, res) => {
+  // Validation of correct URL format for route param
+  // Get request to get redirected from short URL
 });
 
 app.listen(port, function() {
