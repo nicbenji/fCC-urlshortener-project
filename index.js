@@ -21,19 +21,6 @@ app.get('/', function(_req, res) {
 // Your first API endpoint
 app.post('/api/shorturl', function(req, res) {
   // Post request post url and get a JSON response with both URLs
-  mongoose.connect(process.env.MONGO_URI);
-
-  const urlSchema = new mongoose.Schema({
-    original_url: {
-      type: String,
-      required: true
-    },
-    short_url: {
-      type: Number,
-      required: true,
-      unique: true
-    }
-  });
 });
 
 app.get('/api/shorturl/:shorturl', (req, res) => {

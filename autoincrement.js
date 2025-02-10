@@ -17,9 +17,8 @@ async function autoIncrement(idName) {
     { _id: idName },
     { $inc: { seq: 1 } },
     { new: true, upsert: true }
-  )
-    .catch(console.error);
+  );
   return counter.seq;
 }
 
-exports.autoIncrement = autoIncrement();
+exports.autoIncrement = autoIncrement;

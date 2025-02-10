@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 require('dotenv');
-import './autoincrement';
 
 mongoose.connect(process.env.MONGO_URI);
 
@@ -15,3 +14,20 @@ const urlSchema = new mongoose.Schema({
     unique: true
   }
 });
+
+urlSchema.pre('save', async function() {
+  const plugin = require('./autoincrement.js');
+  if (this.isNew) {
+    this.short_url = await plugin.autoIncrement('short_url').catch(console.error);
+  }
+});
+
+const Url = mongoose.model('Url', urlSchema);
+
+const createShortUrl = (url) => {
+  Url.create({
+    original_url: url
+  });
+}
+
+exports.createShortUrl = createShortUrl;
