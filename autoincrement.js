@@ -5,11 +5,6 @@ const CounterSchema = new mongoose.Schema({
   seq: Number
 });
 
-CounterSchema.methods.increment = async function() {
-  this.seq += 1;
-  return this.save();
-}
-
 const Counter = mongoose.model('Counter', CounterSchema);
 
 async function autoIncrement(idName) {

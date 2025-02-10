@@ -16,18 +16,19 @@ const urlSchema = new mongoose.Schema({
 });
 
 urlSchema.pre('save', async function() {
-  const plugin = require('./autoincrement.js');
+  const autoIncrement = require('./autoincrement.js').autoIncrement;
   if (this.isNew) {
-    this.short_url = await plugin.autoIncrement('short_url').catch(console.error);
+    this.short_url = await autoIncrement('short_url').catch(console.error);
   }
 });
 
 const Url = mongoose.model('Url', urlSchema);
 
-const createShortUrl = (url) => {
-  Url.create({
+const createShortUrl = async (url) => {
+  const result = await Url.create({
     original_url: url
   });
+  return result;
 }
 
 exports.createShortUrl = createShortUrl;

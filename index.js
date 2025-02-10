@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const createShortUrl = require('./urlSchema.js').createShortUrl;
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -19,8 +20,15 @@ app.get('/', function(_req, res) {
 });
 
 // Your first API endpoint
-app.post('/api/shorturl', function(req, res) {
+app.post('/api/shorturl', async (req, res) => {
   // Post request post url and get a JSON response with both URLs
+  try {
+    const result = await createShortUrl(req.body.url);
+    res.json(result);
+  } catch (err) {
+    console.error;
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 app.get('/api/shorturl/:shorturl', (req, res) => {
