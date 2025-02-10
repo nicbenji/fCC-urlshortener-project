@@ -31,13 +31,13 @@ app.post('/api/shorturl', async (req, res) => {
 });
 
 app.get('/api/shorturl/:shorturl', async (req, res) => {
-  // Validation of correct URL format for route param
   // Get request to get redirected from short URL
   try {
     const originalUrl = await findUrlByShortUrl(req.params.shorturl);
     res.redirect(originalUrl);
   } catch (err) {
-    res.status(404).json({ error: 'invalid url' });
+    res.status(404).json({ error: 'short url not found' });
+    console.error(err);
   }
 });
 
