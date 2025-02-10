@@ -47,4 +47,10 @@ const createShortUrl = async (url) => {
   };
 }
 
+const findUrlByShortUrl = async (shortUrl) => {
+  const originalUrl = await Url.findOne({ short_url: shortUrl });
+  return originalUrl.original_url;
+}
+
 exports.createShortUrl = createShortUrl;
+exports.findUrlByShortUrl = findUrlByShortUrl;
