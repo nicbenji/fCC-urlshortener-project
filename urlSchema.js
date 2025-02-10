@@ -10,7 +10,6 @@ const urlSchema = new mongoose.Schema({
   },
   short_url: {
     type: Number,
-    required: true,
     unique: true
   }
 });
@@ -25,10 +24,14 @@ urlSchema.pre('save', async function() {
 const Url = mongoose.model('Url', urlSchema);
 
 const createShortUrl = async (url) => {
-  const result = await Url.create({
+  const shortUrl = new Url({
     original_url: url
   });
-  return result;
+  const result = await shortUrl.save();
+  return {
+    original_url: result.original_url,
+    short_url: result.short_url
+  };
 }
 
 exports.createShortUrl = createShortUrl;

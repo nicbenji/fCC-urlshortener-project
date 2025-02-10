@@ -26,8 +26,7 @@ app.post('/api/shorturl', async (req, res) => {
     const result = await createShortUrl(req.body.url);
     res.json(result);
   } catch (err) {
-    console.error;
-    res.status(500).json({ error: 'Server error' });
+    console.error(err);
   }
 });
 
