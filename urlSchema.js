@@ -7,19 +7,19 @@ mongoose.connect(process.env.MONGO_URI);
 const urlSchema = new mongoose.Schema({
   original_url: {
     type: String,
-    required: true,
     validate: {
-      validator: async (url) => {
-        try {
-          await dns.lookup(url);
-          return true;
-        } catch (err) {
-          console.error(err);
-          return false;
-        }
-      }
+      validator: (url) =>
+        new Promise((resolve) => {
+          dns.lookup(url, (err) => {
+            if (err || !url) {
+              resolve(false);
+            } else {
+              resolve();
+            }
+          });
+        }),
+      message: 'invalid url'
     },
-    message: 'invalid url'
   },
   short_url: {
     type: Number,

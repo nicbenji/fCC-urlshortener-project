@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const createShortUrl = require('./urlSchema.js').createShortUrl;
 
 // Basic Configuration
@@ -26,6 +25,7 @@ app.post('/api/shorturl', async (req, res) => {
     const result = await createShortUrl(req.body.url);
     res.json(result);
   } catch (err) {
+    res.status(422).json({ error: err.errors['original_url'].message });
     console.error(err);
   }
 });
