@@ -25,16 +25,16 @@ app.post('/api/shorturl', async (req, res) => {
     const result = await createShortUrl(req.body.url);
     res.json(result);
   } catch (err) {
-    res.status(422).json({ error: err.errors['original_url'].message });
+    res.json({ error: err.errors['original_url'].message.toLowerCase() });
     console.error(err);
   }
 });
 
 app.get('/api/shorturl/:shorturl', async (req, res) => {
 
-  const param = req.params.shorturl;
+  const param = Number(req.params.shorturl);
 
-  if (!isNaN(param)) {
+  if (isNaN(param)) {
     return res.json({ error: 'short urls are always numbers' });
   }
   // Get request to get redirected from short URL

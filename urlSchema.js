@@ -10,7 +10,8 @@ const urlSchema = new mongoose.Schema({
     validate: {
       validator: (url) =>
         new Promise((resolve) => {
-          dns.lookup(url, (err) => {
+          const hostname = new URL(url).hostname;
+          dns.lookup(hostname, (err) => {
             if (err || !url) {
               resolve(false);
             } else {
